@@ -8,17 +8,16 @@ import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import { selectCartHidden } from '../../redux/cart/cart.selectors';
 import CurrentUserContext from '../../contexts/current-user/current-user.context';
-import CartContext from '../../contexts/cart/cart.context';
+import { CartContext } from '../../providers/cart/cart.provider';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 import './header.styles.scss';
 
 const Header = () => {
-  const currentUser = useContext(CurrentUserContext)
-  const [hidden, setHidden] = useState(true)
+  const currentUser = useContext(CurrentUserContext);
+  const { hidden } = useContext(CartContext);
 
-  const toggleHidden = () => setHidden(!hidden)
   return (
   <div className='header'>
     <Link className='logo-container' to='/'>
@@ -40,11 +39,7 @@ const Header = () => {
           SIGN IN
         </Link>
       )}
-        <CartContext.Provider value={{
-        hidden,
-        toggleHidden}}>
-          <CartIcon />
-        </CartContext.Provider>
+      <CartIcon />
     </div>
     {hidden ? null : <CartDropdown />}
   </div>
